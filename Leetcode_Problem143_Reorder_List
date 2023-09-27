@@ -1,0 +1,70 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+void reorderList(struct ListNode* head){
+    struct ListNode *ptr = head;
+    int i = 0 , size = 0 , arr[50001] , j , counter = 0;
+    while(ptr)
+    {
+        arr[size++] = ptr->val;
+        ptr = ptr->next;
+    }
+    ptr = head;
+    j = size-1;
+    while(i <= j)
+    {
+        if(!counter)
+        {
+            ptr->val = arr[i++];
+            counter = 1;
+        }
+        else
+        {
+            ptr->val = arr[j--];
+            counter = 0; 
+        }
+        ptr = ptr->next;
+    }
+}
+
+
+
+---------------------------------------------------------------------------
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+void reorderList(struct ListNode* head){
+	struct ListNode *slow = head, *fast = head;
+	while ( fast->next && fast->next->next )
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}		
+	struct ListNode *prev = NULL, *cur = slow->next, *save;
+	while ( cur )
+	{
+		save = cur->next;
+		cur->next = prev;
+		prev = cur;
+		cur = save;
+	}	
+	slow->next = NULL;
+	struct ListNode *head2 = prev;
+	while ( head2 )
+	{
+		save = head->next;
+		head->next = head2;
+		head = head2;
+		head2 = save;
+	}      
+}
